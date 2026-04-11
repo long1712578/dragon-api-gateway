@@ -17,7 +17,7 @@ Dragon API Gateway la entrypoint HTTP cho Dragon platform. Phase dau dung Ocelot
 3. Test gateway health tai `/health/live` va route Identity tai `/identity/auth/register`.
 
 ## Deployment contract
-- Image: `ghcr.io/longpham1712578/dragon-api-gateway`
+- Image: `ghcr.io/long1712578/dragon-api-gateway`
 - Container port: `8080`
 - Health endpoints: `/health/live`, `/health/ready`
 - GitOps manifest targets: `deploy/<env>/api-gateway.yaml` trong repo `dragon-k8s-config`
