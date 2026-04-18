@@ -16,12 +16,26 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 	options.KnownProxies.Clear();
 });
 
+// CORS — cho phép CV website (và các frontend khác) gọi API qua gateway
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(policy =>
+	{
+		policy
+			.SetIsOriginAllowed(_ => true)     // Develop: cho phép tất cả origin
+			.AllowAnyHeader()
+			.AllowAnyMethod()
+			.AllowCredentials();
+	});
+});
+
 builder.Services.AddHealthChecks();
 builder.Services.AddOcelot(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseForwardedHeaders();
+app.UseCors();
 
 app.MapGet("/", (IConfiguration configuration, IWebHostEnvironment environment) =>
 {
