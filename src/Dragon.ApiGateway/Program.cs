@@ -54,6 +54,18 @@ app.MapGet("/", (IConfiguration configuration, IWebHostEnvironment environment) 
 	});
 });
 
+// K8s Health Check Interceptor
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.Value != null && context.Request.Path.Value.StartsWith("/health"))
+    {
+        context.Response.StatusCode = 200;
+        await context.Response.WriteAsync("Healthy");
+        return;
+    }
+    await next();
+});
+
 app.MapHealthChecks("/health/live");
 app.MapHealthChecks("/health/ready");
 
